@@ -1,0 +1,1098 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "MOK",
+		"description": "Moduł Obsługi Kredytów",
+		"contact": {
+			"name": "ING"
+		},
+		"version": "v1.0"
+	},
+	"servers": [
+		{
+			"url": "https://mok-t.pl.ing-ad/mok",
+			"description": "Generated server url"
+		}
+	],
+	"security": [
+		{
+			"bearerAuth": []
+		}
+	],
+	"paths": {
+		"/agreement/renesisrest/rengetagreement": {
+			"post": {
+				"tags": [
+					"ren-agreement-object-controller"
+				],
+				"operationId": "getTranche",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"request": {
+										"$ref": "#/components/schemas/BaseRequestAgreementObjectRequest"
+									},
+									"customerInfoToken": {
+										"$ref": "#/components/schemas/CustomerInfoToken"
+									}
+								}
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseAgreementObjectResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/agreement/agr/{agreementNumber}/id": {
+			"get": {
+				"tags": [
+					"agreement-id-controller"
+				],
+				"operationId": "getAgreementId",
+				"parameters": [
+					{
+						"name": "agreementNumber",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AgreementIdResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/agreement/agr/{agreementNumber}/agreement": {
+			"get": {
+				"tags": [
+					"agreement-object-controller"
+				],
+				"operationId": "getAgreement",
+				"parameters": [
+					{
+						"name": "userId",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "agreementNumber",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AgreementObjectResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/agreement/agr/{agreementId}/tranchesAndMoneyTransfers": {
+			"get": {
+				"tags": [
+					"tranche-controller"
+				],
+				"operationId": "getTranchesAndMoneyTransfers",
+				"parameters": [
+					{
+						"name": "userId",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "agreementId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TrancheListResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/agreement/agr/{agreementId}/tranche/{trancheId}/moneyTransfer/{moneyTransferId}": {
+			"get": {
+				"tags": [
+					"money-transfer-controller"
+				],
+				"operationId": "getMoneyTransfer",
+				"parameters": [
+					{
+						"name": "trancheId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "moneyTransferId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "agreementId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "userId",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MoneyTransferResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/agreement/agr/{agrNumber}/agreementAnnexes": {
+			"get": {
+				"tags": [
+					"agreement-annexes-controller"
+				],
+				"operationId": "getAgreementAnnexes",
+				"parameters": [
+					{
+						"name": "userId",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "agreementNumber",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "agrNumber",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AgreementAnnexesResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"AgreementObjectRequest": {
+				"required": [
+					"agreementNumber"
+				],
+				"type": "object",
+				"properties": {
+					"agreementNumber": {
+						"maxLength": 21,
+						"minLength": 0,
+						"type": "string"
+					}
+				}
+			},
+			"BaseRequestAgreementObjectRequest": {
+				"type": "object",
+				"properties": {
+					"token": {
+						"type": "string"
+					},
+					"trace": {
+						"type": "string"
+					},
+					"locale": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/AgreementObjectRequest"
+					}
+				}
+			},
+			"CustomerInfoToken": {
+				"type": "object",
+				"properties": {
+					"source": {
+						"type": "string"
+					},
+					"login": {
+						"type": "string"
+					},
+					"klicbsp": {
+						"type": "string"
+					},
+					"klicbs": {
+						"type": "string"
+					},
+					"joinsKlicbs": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"sessionId": {
+						"type": "string"
+					},
+					"mobiDevId": {
+						"type": "string"
+					},
+					"authenticated": {
+						"type": "boolean"
+					}
+				}
+			},
+			"Agreement": {
+				"required": [
+					"agreementDate",
+					"agreementId",
+					"agreementNumber",
+					"applicationId",
+					"loanNumber",
+					"maxPlannedLaunchDate",
+					"primaryMarket",
+					"product",
+					"purposeType",
+					"result",
+					"totalAmount"
+				],
+				"type": "object",
+				"properties": {
+					"agreementDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"agreementId": {
+						"type": "string"
+					},
+					"agreementNumber": {
+						"maxLength": 21,
+						"minLength": 0,
+						"type": "string"
+					},
+					"applicationId": {
+						"type": "string"
+					},
+					"loanNumber": {
+						"maxLength": 10,
+						"minLength": 0,
+						"type": "string"
+					},
+					"maxPlannedLaunchDate": {
+						"type": "string",
+						"format": "date"
+					},
+					"primaryMarket": {
+						"type": "boolean"
+					},
+					"product": {
+						"maxLength": 1,
+						"minLength": 0,
+						"type": "string"
+					},
+					"purposeType": {
+						"maxLength": 2,
+						"minLength": 0,
+						"type": "string",
+						"enum": [
+							"P1",
+							"P2",
+							"P3",
+							"P4",
+							"P5",
+							"P6",
+							"P7",
+							"P8",
+							"P9",
+							"P10",
+							"P11",
+							"P12",
+							"P13",
+							"P14",
+							"P15",
+							"P16",
+							"P17",
+							"P18",
+							"P19",
+							"P20",
+							"P21",
+							"P22",
+							"P23",
+							"P24",
+							"P25"
+						]
+					},
+					"result": {
+						"maxLength": 20,
+						"minLength": 0,
+						"type": "string",
+						"enum": [
+							"rozpocz",
+							"oczek",
+							"zapis",
+							"w_tra_obsl",
+							"api_error_read",
+							"api_error_write",
+							"api_timeout_read",
+							"api_timeout_write",
+							"zak_sys",
+							"pro_zak_neg",
+							"pro_zak_rez",
+							"pro_zak_re_uru",
+							"pro_zak_anx_poza_fe",
+							"odst_od_umowy"
+						]
+					},
+					"totalAmount": {
+						"type": "number"
+					}
+				}
+			},
+			"AgreementObjectResponse": {
+				"required": [
+					"agreementNumber"
+				],
+				"type": "object",
+				"properties": {
+					"comment": {
+						"type": "string"
+					},
+					"error": {
+						"type": "string"
+					},
+					"errorMessage": {
+						"type": "string"
+					},
+					"result": {
+						"type": "string",
+						"enum": [
+							"NO_ERROR",
+							"ERROR",
+							"TIMEOUT",
+							"MQ_ERROR",
+							"POSTPONED"
+						]
+					},
+					"agreementNumber": {
+						"type": "string"
+					},
+					"agreement": {
+						"$ref": "#/components/schemas/Agreement"
+					}
+				}
+			},
+			"BaseResponseAgreementObjectResponse": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"code": {
+						"type": "string"
+					},
+					"msg": {
+						"type": "string"
+					},
+					"desc": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/AgreementObjectResponse"
+					}
+				}
+			},
+			"AgreementIdResponse": {
+				"type": "object",
+				"properties": {
+					"agreementId": {
+						"type": "string"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"error": {
+						"type": "string"
+					},
+					"errorMessage": {
+						"type": "string"
+					},
+					"result": {
+						"type": "string",
+						"enum": [
+							"NO_ERROR",
+							"ERROR",
+							"TIMEOUT",
+							"MQ_ERROR",
+							"POSTPONED"
+						]
+					},
+					"id": {
+						"type": "string"
+					},
+					"agreementNumber": {
+						"type": "string"
+					}
+				}
+			},
+			"MokBankUser": {
+				"type": "object",
+				"properties": {
+					"entityOperation": {
+						"type": "string",
+						"writeOnly": true,
+						"enum": [
+							"NEW",
+							"UNCHANGED",
+							"MODIFIED",
+							"DELETED"
+						]
+					},
+					"userId": {
+						"type": "string"
+					},
+					"branchNumber": {
+						"type": "string"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"workgroupName": {
+						"type": "string"
+					}
+				}
+			},
+			"MoneyTransferDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"accountNumber": {
+						"type": "string"
+					},
+					"amount": {
+						"type": "number"
+					},
+					"balance": {
+						"type": "boolean"
+					},
+					"bankName": {
+						"type": "string"
+					},
+					"destinationType": {
+						"type": "string",
+						"enum": [
+							"DEVELOPER",
+							"REPAYMENT"
+						]
+					},
+					"entryStage": {
+						"type": "string",
+						"enum": [
+							"APPLICATION",
+							"AGREEMENT"
+						]
+					},
+					"errorMessage": {
+						"type": "string"
+					},
+					"recipientAddress": {
+						"type": "string"
+					},
+					"recipientName": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string",
+						"enum": [
+							"U",
+							"W",
+							"A",
+							"O",
+							"WS",
+							"UR",
+							"DW",
+							"ZW"
+						]
+					},
+					"title": {
+						"type": "string"
+					},
+					"transferDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"transferNumber": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"TrancheDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"amount": {
+						"type": "number"
+					},
+					"description": {
+						"type": "string"
+					},
+					"finalComment": {
+						"type": "string"
+					},
+					"finalStatusUser": {
+						"$ref": "#/components/schemas/MokBankUser"
+					},
+					"invNumber": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"kind": {
+						"type": "string",
+						"enum": [
+							"REFINANCING",
+							"FINANCING_PARTICULAR",
+							"PAYMENT_RELOCATION",
+							"PURCHASE",
+							"CONSOLIDATION",
+							"INVESTMENT"
+						]
+					},
+					"manualUnlock": {
+						"type": "boolean"
+					},
+					"moneyTransfer": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/MoneyTransferDTO"
+						}
+					},
+					"purposeId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"status": {
+						"type": "string",
+						"enum": [
+							"ZA",
+							"O",
+							"ZR",
+							"ZX"
+						]
+					},
+					"trancheConditionTypeId": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"trancheDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"trancheNumber": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"trancheType": {
+						"type": "string",
+						"enum": [
+							"NORMAL",
+							"BALANCED",
+							"FINAL"
+						]
+					},
+					"trancheTypeId": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"TrancheListResponse": {
+				"type": "object",
+				"properties": {
+					"agreementId": {
+						"type": "string"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"error": {
+						"type": "string"
+					},
+					"errorMessage": {
+						"type": "string"
+					},
+					"result": {
+						"type": "string",
+						"enum": [
+							"NO_ERROR",
+							"ERROR",
+							"TIMEOUT",
+							"MQ_ERROR",
+							"POSTPONED"
+						]
+					},
+					"tranches": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/TrancheDTO"
+						}
+					}
+				}
+			},
+			"MoneyTransferResponse": {
+				"type": "object",
+				"properties": {
+					"agreementId": {
+						"type": "string"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"error": {
+						"type": "string"
+					},
+					"errorMessage": {
+						"type": "string"
+					},
+					"result": {
+						"type": "string",
+						"enum": [
+							"NO_ERROR",
+							"ERROR",
+							"TIMEOUT",
+							"MQ_ERROR",
+							"POSTPONED"
+						]
+					},
+					"moneyTransfer": {
+						"$ref": "#/components/schemas/MoneyTransferDTO"
+					}
+				}
+			},
+			"AgreementAnnexesResponse": {
+				"type": "object",
+				"properties": {
+					"agreementId": {
+						"type": "string"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"error": {
+						"type": "string"
+					},
+					"errorMessage": {
+						"type": "string"
+					},
+					"result": {
+						"type": "string",
+						"enum": [
+							"NO_ERROR",
+							"ERROR",
+							"TIMEOUT",
+							"MQ_ERROR",
+							"POSTPONED"
+						]
+					},
+					"agreementNumber": {
+						"type": "string"
+					},
+					"annexes": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/AnnexDTO"
+						}
+					}
+				}
+			},
+			"AnnexDTO": {
+				"type": "object",
+				"properties": {
+					"anonymisedData": {
+						"type": "boolean"
+					},
+					"applicationDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"applicationNumber": {
+						"type": "string"
+					},
+					"dateStartRetention": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"dateEndRetention": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"result": {
+						"type": "string",
+						"enum": [
+							"rozpocz",
+							"oczek",
+							"zapis",
+							"wycof",
+							"roz_po_wys_wia",
+							"zap_po_wys_wia",
+							"zak_poz",
+							"zak_z_ods",
+							"zak_poz_z_ods",
+							"zak_bez_bik",
+							"zak_z_pow_do_zob",
+							"zak_na_i_rek",
+							"zak_neg",
+							"zak",
+							"pro_zak_neg",
+							"pro_zak_rez",
+							"api_error_read",
+							"api_error_write",
+							"api_timeout_read",
+							"api_timeout_write",
+							"bra_wym_wyd",
+							"wyd_roz",
+							"wyd_zak_poz",
+							"prz_ofe",
+							"obl_har",
+							"prz_do_i_rek",
+							"prz_do_ii_rek",
+							"prz_do_wer_ryz_ope",
+							"prz_na_wyz_szcz",
+							"zwr_na_i_rek",
+							"zwr_do_odd",
+							"prz_czas_oper",
+							"kon_wni",
+							"kon_wni_i_umo",
+							"kon_umo",
+							"kre_ocz_na_uru",
+							"w_tra_uru",
+							"kro_zak_neg",
+							"kre_uru",
+							"rek_poz_mod",
+							"rek_poz",
+							"rek_neg_mod",
+							"rek_neg",
+							"do_wyj_mod",
+							"do_wyj",
+							"zak_poz_mod",
+							"zak_neg_mod",
+							"wys_wiad",
+							"wer_w_baz",
+							"wer_w_baz_ocz",
+							"wer_w_baz_wys",
+							"pro_zak_sys",
+							"pro_zak_uru_kre",
+							"pobrany",
+							"pro_zak",
+							"pro_zak_poz",
+							"pro_zak_zmo_par",
+							"w_tra_obsl",
+							"pro_zak_kill",
+							"pro_zak_zam",
+							"kre_uru_sbf",
+							"pro_przek_dmir",
+							"wer_poz",
+							"wer_neg",
+							"zatwier",
+							"wygener"
+						]
+					},
+					"stage": {
+						"type": "string",
+						"enum": [
+							"dec_aut",
+							"wpr_wni_anx",
+							"kontr",
+							"pod_dec",
+							"wpr_wni",
+							"wer_umo",
+							"prz_umo",
+							"logistyka",
+							"przek_dan_do_iwa",
+							"wsd",
+							"wniosek",
+							"uru_kre",
+							"uzu_dan",
+							"pow_dec_wsd",
+							"prz_ofe",
+							"pow_dec_ryz_ope",
+							"mod_par",
+							"wer_ryz_ope",
+							"kon_prz_ii_rek",
+							"czy_do_wyk",
+							"prz_umo_ibol",
+							"wer_wni",
+							"wer_wni_ibol",
+							"umowa",
+							"wpr_anx_bo",
+							"aneks",
+							"wer_anx_bo",
+							"obs_anx",
+							"wpr_anx_wsd",
+							"wer_aneksu",
+							"wer_wni_anx_wsd",
+							"wer_wni_anx",
+							"wer_wni_anx_bo",
+							"wer_war",
+							"obsluga_war",
+							"oczek_na_dok"
+						]
+					},
+					"task": {
+						"type": "string",
+						"enum": [
+							"lis_ucz",
+							"dan_pod_wni",
+							"zobow",
+							"dochod",
+							"lis_ofe",
+							"dan_dod_pub",
+							"pow_wer_wni",
+							"ust_sci_pro",
+							"dec_jed",
+							"obs_po_ii_rec",
+							"obs_po_ii_rec_zw",
+							"obs_po_neg_kon_ii_rec",
+							"obs_po_neg_wer_ryz",
+							"obs_po_pod_dec",
+							"obs_po_pod_dec_poz",
+							"obs_po_pod_dec_neg",
+							"obs_po_pod_dec_zwr",
+							"obs_po_wer_ryz_ope",
+							"dan_do_pub",
+							"dan_do_pub_po_zw",
+							"def_kon",
+							"def_kon_po_i_rec",
+							"reprez",
+							"kon_jak",
+							"kon_spe_war",
+							"pop_war",
+							"uru_kre",
+							"obs_nie_uru",
+							"odwol",
+							"aut_zam_pro",
+							"czy_wer_po_ofe",
+							"czy_wer_po_ofe_kon_2",
+							"czy_wer_po_ofe_kon_3_16",
+							"czy_wer_prz_pod_umo",
+							"czy_wer_prz_pod_umo_kon_2",
+							"wer_po_wpr_doch_i_zob",
+							"wer_po_dec_aut",
+							"wer_po_kon_prz_ii_rek",
+							"wer_po_wer_ryz_ope",
+							"wer_po_poz_wer_ryz",
+							"wer_po_neg_wer_ryz",
+							"wyd_po_dan_pod",
+							"wyd_po_ofe",
+							"wyd_po_lis_ucz",
+							"wyd_po_doch",
+							"wyd_po_dan_do_pub",
+							"kon_wni",
+							"kon_umo",
+							"prze_na_II_rek",
+							"udz_rek",
+							"dec",
+							"wer_wni_ibol",
+							"czy_wer_ibol",
+							"wer_dla_ibol",
+							"neg_dec_wsd",
+							"wer_wni_cc",
+							"cc_kol_oddzw",
+							"lis_zob",
+							"szcz_aneks_zob",
+							"uzu_dan",
+							"wpr_zmi_sys",
+							"zwo_zab",
+							"uzu_dan_II_rek",
+							"wpr_zmi_sys_II_rek",
+							"zwo_zab_II_rek",
+							"wer_wni",
+							"mod_par",
+							"okr_pre",
+							"wyb_rach_splat",
+							"utw_wni",
+							"nieruch",
+							"trans",
+							"zabezp",
+							"inf_uzup",
+							"czy_wer",
+							"oczek_umo",
+							"podp_umo",
+							"neg_wer_II_rek",
+							"zwrot_z_II_rek",
+							"umo_zwrot_z_II_rek",
+							"umo_neg_wer_II_rek",
+							"ocena_zab",
+							"analiza_fin",
+							"rek_rzecz",
+							"dec_kom",
+							"neg_wer_ro",
+							"wni_zw_z_ro",
+							"wni_zw_z_wsd",
+							"zak_rach",
+							"oczek",
+							"obs_war_form",
+							"obs_war_przed_dec_wst",
+							"obs_war_przed_dec_ost",
+							"dec_wst",
+							"wni_przek_logist",
+							"zwrot_dec_wst",
+							"wer_po_dec_kli",
+							"wym_dpo",
+							"dan_szc_wni",
+							"umowy",
+							"umo_ram",
+							"umo_kred",
+							"dec_I_reka",
+							"dec_II_reka",
+							"pod_umo",
+							"wni_po_dec_neg",
+							"zwrot_przez_analityka",
+							"wni_neg_wer_II_rec",
+							"wni_po_dec_poz",
+							"prz_umo",
+							"wyd_umo",
+							"aneks_podp_umo",
+							"aneks_czy_wer",
+							"aneks_zwr_odd",
+							"aneks_wpr_adm",
+							"aneks_wpr_zab",
+							"aneks_w_tra_wyj",
+							"aneks_wer_adm",
+							"aneks_wer_zab",
+							"aneks_obs_pub",
+							"aneks_wn_po_rezyg",
+							"aneks_wn_po_dec_neg",
+							"aneks_wn_po_dec_poz",
+							"aneks_wn_po_prz_dmir",
+							"aneks_obs_po_rezyg",
+							"aneks_zwrot_druga_reka",
+							"aneks_obs_po_prz_dmir",
+							"aneks_wer_neg_druga_reka",
+							"aneks_wer_neg_ro",
+							"aneks_zwr_ro",
+							"aneks_zwr_wsd",
+							"wni_zw_z_bo",
+							"wer_wni_o_anx",
+							"wyz_kla_ryz",
+							"eks_dan_wni",
+							"zwrot_po_weryf",
+							"ocena_wni",
+							"pow_skier",
+							"wer_lis_ucz",
+							"wer_dochodow",
+							"wer_zobow",
+							"wer_ocena_wn",
+							"ust_dzial",
+							"wpr_danych",
+							"do_wyj_kli"
+						]
+					},
+					"id": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}
